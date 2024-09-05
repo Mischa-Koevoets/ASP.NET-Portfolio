@@ -38,12 +38,13 @@ namespace aspnetPortfolio.Controllers
                 else
                 {
                     // Invalid login attempt
-                    ModelState.AddModelError("", "Invalid username or password.");
+                    ViewBag.ErrorMessage = "Invalid username or password.";                    
+                    
                 }
+                
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
+            
         }
     }
 }
