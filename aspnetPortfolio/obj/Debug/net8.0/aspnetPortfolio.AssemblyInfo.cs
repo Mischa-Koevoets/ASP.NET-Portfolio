@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("aspnetPortfolio")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+059167f2800ac72f134a75592cfac7524806a9d4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fb71d48c1dd3ea28351926adb56b6a79a6a9ae61")]
 [assembly: System.Reflection.AssemblyProductAttribute("aspnetPortfolio")]
 [assembly: System.Reflection.AssemblyTitleAttribute("aspnetPortfolio")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

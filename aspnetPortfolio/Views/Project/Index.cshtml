@@ -1,41 +1,87 @@
-@model IEnumerable<aspnetPortfolio.Models.Project>
+@model IEnumerable<aspnetPortfolio.dbContext.Project>
 
 @{
     ViewBag.Title = "Projects";
 }
 
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+    <div class="alert alert-success">
+        @ViewBag.SuccessMessage
+    </div>
+}
+
+
 <h2>Projects</h2>
 
-<p>
-    @Html.ActionLink("Create New Project", "Create")
-</p>
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        @Html.ActionLink("Create New Project", "Create")
+        @Html.ActionLink("Create New Tag", "Create", "Tag") 
+    </p>
+}
+
+<form method="get" action="@Url.Action("Index", "Project")" class="form-inline" style="margin-bottom: 15px;">
+    <div class="form-group" style="display: flex; align-items: center;">
+        <label for="tagFilter" style="margin-right: 5px; font-size: 14px;">Filter by Tag:</label>
+        @Html.DropDownList("tagId", (IEnumerable<SelectListItem>)ViewBag.Tags, "All Tags", new { @class = "form-control form-control-sm", id = "tagFilter", style = "width: 150px; margin-right: 5px;" })
+        <button type="submit" class="btn btn-primary btn-sm" style="padding: 5px 10px; font-size: 14px;">Filter</button>
+        <a href="@Url.Action("Index", "Project")" class="btn btn-secondary btn-sm" style="padding: 5px 10px; font-size: 14px; margin-left: 5px;">Reset</a>
+    </div>
+</form>
+
 
 <table class="table">
     <tr>
-        <th>@Html.DisplayNameFor(model => model.Name)</th>
-        <th>@Html.DisplayNameFor(model => model.Description)</th>
-        <th>@Html.DisplayNameFor(model => model.GithubLink)</th>
-        <th>@Html.DisplayNameFor(model => model.FilePath)</th>
+        <th>@Html.DisplayNameFor(model => model.First().Name)</th>
+        <th>@Html.DisplayNameFor(model => model.First().Description)</th>
+        <th>@Html.DisplayNameFor(model => model.First().GithubLink)</th>
+        <th>Files</th>
+        <th>Tags</th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-        <td>@Html.DisplayFor(modelItem => item.Description)</td>
-        <td>@Html.ActionLink("View on GitHub", null, null, new { href = item.GithubLink, target = "_blank" })</td>
-        <td>
-            @if (!string.IsNullOrEmpty(item.FilePath))
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.GithubLink))
+                {
+                    <a href="@item.GithubLink" target="_blank">View on GitHub</a>
+                }
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.FilePath))
+                {
+                    <a href="@Url.Content(item.FilePath)" target="_blank">Download File</a>
+                }
+            </td>
+            <td>
+                @if (item.Tags != null && item.Tags.Any())
+                {
+                    <ul>
+                        @foreach (var tag in item.Tags)
+                        {
+                            <li>@tag.Name</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <span>No tags</span>
+                }
+            </td>
+            @if (User.Identity.IsAuthenticated)
             {
-                <a href="@Url.Content(item.FilePath)" target="_blank">Download File</a>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                </td>
             }
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-        </td>
-    </tr>
-}
+        </tr>
+    }
 </table>
-t

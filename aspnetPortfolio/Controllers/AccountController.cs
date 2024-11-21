@@ -1,50 +1,67 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using aspnetPortfolio.Models;
 using aspnetPortfolio.dbContext;
+using aspnetPortfolio.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
-namespace aspnetPortfolio.Controllers
+public class AccountController : Controller
 {
-    public class AccountController : Controller
+    private readonly PortofolioDbContext _context;
+
+    public AccountController()
     {
-        private readonly PortofolioDbContext _context;
+        _context = new PortofolioDbContext();
+    }
 
-        public AccountController()
-        {
-            _context = new PortofolioDbContext(); // Assuming you have a DbContext setup
-        }
+    public IActionResult Login()
+    {
+        return View();
+    }
 
-        // GET: Account/Login
-        public ActionResult Login()
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginViewModel model)
+    {
+        if (ModelState.IsValid)
         {
-            return View();
-        }
+            var user = _context.Users
+                .FirstOrDefault(u => u.Username == model.Username && u.Password == model.Password);
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel model)
-        {
-            if (ModelState.IsValid)
+            if (user != null)
             {
-                // Check user credentials
-                var user = _context.Users
-                    .FirstOrDefault(u => u.Username == model.Username && u.Password == model.Password);
-
-                if (user != null)
-                {
-                    // Authentication successful, redirect to the home page or dashboard
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    // Invalid login attempt
-                    ViewBag.ErrorMessage = "Invalid username or password.";                    
-                    
-                }
                 
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                };
+
+                
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties
+                    {
+                        IsPersistent = true, 
+                        ExpiresUtc = DateTime.UtcNow.AddDays(7) 
+                    });
+
+                return RedirectToAction("Index", "Home");
             }
-            return View(model);
-            
+            else
+            {
+                ViewBag.ErrorMessage = "Invalid username or password.";
+            }
         }
+        return View(model);
+    }
+
+    public async Task<IActionResult> Logout()
+    {
+        
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToAction("Login", "Account");
     }
 }

@@ -1,0 +1,12 @@
+CREATE DEFINER=`root`@`localhost` FUNCTION `ijssalon`.`initCap`( sParameter VARCHAR(50) ) RETURNS varchar(50) CHARSET utf8mb4 COLLATE utf8mb4_general_ci
+    DETERMINISTIC
+BEGIN
+
+   DECLARE sInitCap VARCHAR(50);
+   SET sInitCap = CONCAT(Ucase(LEFT(sParameter, 1)), Lcase(MID(sParameter, 2)));
+   
+	RETURN sInitCap;
+
+END;
+
+

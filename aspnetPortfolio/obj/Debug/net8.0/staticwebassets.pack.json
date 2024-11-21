@@ -5,6 +5,30 @@
       "PackagePath": "staticwebassets/aspnetPortfolio.bundle.scp.css"
     },
     {
+      "Id": "/home/mischa/Documents/GitHub/ASP.NET-Portfolio/aspnetPortfolio/wwwroot/Uploads/10_initCap.text",
+      "PackagePath": "staticwebassets/Uploads/10_initCap.text"
+    },
+    {
+      "Id": "/home/mischa/Documents/GitHub/ASP.NET-Portfolio/aspnetPortfolio/wwwroot/Uploads/19-09-2024_Mischa-Koevoets-Breda.pdf",
+      "PackagePath": "staticwebassets/Uploads/19-09-2024_Mischa-Koevoets-Breda.pdf"
+    },
+    {
+      "Id": "/home/mischa/Documents/GitHub/ASP.NET-Portfolio/aspnetPortfolio/wwwroot/Uploads/CV.pdf",
+      "PackagePath": "staticwebassets/Uploads/CV.pdf"
+    },
+    {
+      "Id": "/home/mischa/Documents/GitHub/ASP.NET-Portfolio/aspnetPortfolio/wwwroot/Uploads/E3 Barroc Intens.docx",
+      "PackagePath": "staticwebassets/Uploads/E3 Barroc Intens.docx"
+    },
+    {
+      "Id": "/home/mischa/Documents/GitHub/ASP.NET-Portfolio/aspnetPortfolio/wwwroot/Uploads/marker.png",
+      "PackagePath": "staticwebassets/Uploads/marker.png"
+    },
+    {
+      "Id": "/home/mischa/Documents/GitHub/ASP.NET-Portfolio/aspnetPortfolio/wwwroot/Uploads/pointing.png",
+      "PackagePath": "staticwebassets/Uploads/pointing.png"
+    },
+    {
       "Id": "/home/mischa/Documents/GitHub/ASP.NET-Portfolio/aspnetPortfolio/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },

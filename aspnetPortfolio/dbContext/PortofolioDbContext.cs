@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using aspnetPortfolio.Models;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
@@ -17,8 +16,11 @@ public partial class PortofolioDbContext : DbContext
     {
     }
 
-    public virtual DbSet<User> Users { get; set; }
     public virtual DbSet<Project> Projects { get; set; }
+
+    public virtual DbSet<Tag> Tags { get; set; }
+
+    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -30,40 +32,58 @@ public partial class PortofolioDbContext : DbContext
             .UseCollation("utf8mb4_general_ci")
             .HasCharSet("utf8mb4");
 
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
-
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
-            entity.Property(e => e.Password)
-                .HasMaxLength(50)
-                .HasColumnName("password");
-            entity.Property(e => e.Username)
-                .HasMaxLength(50)
-                .HasColumnName("username");
-        });
-
         modelBuilder.Entity<Project>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .HasColumnName("name");
-            entity.Property(e => e.Description)
-                .HasMaxLength(255)
-                .HasColumnName("description");
-            entity.Property(e => e.GithubLink)
-                .HasMaxLength(255)
-                .HasColumnName("github_link");
-            entity.Property(e => e.FilePath)
-                .HasMaxLength(255)
-                .HasColumnName("file_path");
+            entity.ToTable("Project");
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.Description).HasColumnType("text");
+            entity.Property(e => e.FilePath).HasMaxLength(255);
+            entity.Property(e => e.GithubLink).HasMaxLength(255);
+            entity.Property(e => e.Name).HasMaxLength(255);
+
+            entity.HasMany(d => d.Tags).WithMany(p => p.Projects)
+                .UsingEntity<Dictionary<string, object>>(
+                    "ProjectTag",
+                    r => r.HasOne<Tag>().WithMany()
+                        .HasForeignKey("TagId")
+                        .HasConstraintName("ProjectTag_ibfk_2"),
+                    l => l.HasOne<Project>().WithMany()
+                        .HasForeignKey("ProjectId")
+                        .HasConstraintName("ProjectTag_ibfk_1"),
+                    j =>
+                    {
+                        j.HasKey("ProjectId", "TagId")
+                            .HasName("PRIMARY")
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                        j.ToTable("ProjectTag");
+                        j.HasIndex(new[] { "TagId" }, "TagId");
+                        j.IndexerProperty<int>("ProjectId").HasColumnType("int(11)");
+                        j.IndexerProperty<int>("TagId").HasColumnType("int(11)");
+                    });
+        });
+
+        modelBuilder.Entity<Tag>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("Tag");
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("User");
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.Password).HasMaxLength(255);
+            entity.Property(e => e.Username).HasMaxLength(255);
         });
 
         OnModelCreatingPartial(modelBuilder);

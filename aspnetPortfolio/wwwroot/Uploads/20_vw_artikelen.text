@@ -1,0 +1,16 @@
+CREATE OR REPLACE
+ALGORITHM = UNDEFINED VIEW `ijssalon`.`vw_artikelen` AS
+select
+    `InitCap`(concat(ifnull(`ijssalon`.`smaak`.`smaak`, ''), `ijssalon`.`product`.`Product`)) AS `artikel`,
+    `ijssalon`.`combi`.`cid` AS `cid`,
+    `ijssalon`.`combi`.`prid` AS `prid`,
+    `ijssalon`.`combi`.`vnr` AS `vnr`
+from
+    ((`ijssalon`.`combi`
+left join `ijssalon`.`smaak` on
+    ((`ijssalon`.`combi`.`sid` = `ijssalon`.`smaak`.`sid`)))
+join `ijssalon`.`product` on
+    ((`ijssalon`.`product`.`pid` = `ijssalon`.`combi`.`pid`)));
+    
+    
+    
