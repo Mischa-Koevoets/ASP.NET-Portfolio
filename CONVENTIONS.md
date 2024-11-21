@@ -10,33 +10,7 @@ Data Context: The database context is defined in the dbContext folder (Portofoli
 
 Static Files: Static assets (e.g., CSS, JS, images) are stored in the wwwroot folder.
 
-# 2. Naming Conventions
-## 2.1 Classes
-
-Use PascalCase for class names.
-Example: Project, Tag, AccountController.
-
-## 2.2 Methods
-
-Use PascalCase for method names.
-Example: Create, Edit, Delete.
-
-## 2.3 Variables
-
-Use camelCase for local variables and method parameters.
-Example: projectName, tagList.
-
-## 2.4 Files and Folders
-
-Use singular names for folders unless referring to a collection conceptually.
-Example: Model, Controller.
-
-## 2.5 View Files
-
-Use the action name as the view name.
-Example: Create.cshtml for the Create action in the ProjectController.
-
-# 3. Authentication and Authorization
+# 2. Authentication and Authorization
 
 Authentication: Implemented using cookie-based authentication.
         Login path: /Account/Login
@@ -44,6 +18,33 @@ Authentication: Implemented using cookie-based authentication.
 Authorization:
         Use User.Identity.IsAuthenticated to restrict access to certain actions or UI elements.
         Ensure links to sensitive actions (e.g., "Create Project") are displayed only to authenticated users.
+
+# 3. Naming Conventions
+## 3.1 Classes
+
+Use PascalCase for class names.
+Example: Project, Tag, AccountController.
+
+## 3.2 Methods
+
+Use PascalCase for method names.
+Example: Create, Edit, Delete.
+
+## 3.3 Variables
+
+Use camelCase for local variables and method parameters.
+Example: projectName, tagList.
+
+## 3.4 Files and Folders
+
+Use singular names for folders unless referring to a collection conceptually.
+Example: Model, Controller.
+
+## 3.5 View Files
+
+Use the action name as the view name.
+Example: Create.cshtml for the Create action in the ProjectController.
+
 
 # 4. Database and Models
 ## 4.1 Database Context
@@ -124,7 +125,7 @@ Validate data in controllers before performing database operations:
     }
 
 
-# 12. Coding Standards
+# 10. Coding Standards
 
 Write clean and readable code.
 Add comments where necessary, especially for complex logic.
