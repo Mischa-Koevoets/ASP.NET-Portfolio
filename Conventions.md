@@ -1,10 +1,10 @@
 1. Project Structure
 
-    Controllers: Located in the Controllers folder. Each controller should focus on handling requests for a specific resource type (e.g., ProjectController for projects).
-    Models: Stored in the Models folder. Represents data entities and view models.
-    Views: Stored in the Views folder, with subfolders corresponding to each controller (e.g., Views/Project for ProjectController views).
-    Data Context: The database context is defined in the dbContext folder (PortofolioDbContext).
-    Static Files: Static assets (e.g., CSS, JS, images) are stored in the wwwroot folder.
+Controllers: Located in the Controllers folder. Each controller should focus on handling requests for a specific resource type (e.g., ProjectController for projects).
+Models: Stored in the Models folder. Represents data entities and view models.
+Views: Stored in the Views folder, with subfolders corresponding to each controller (e.g., Views/Project for ProjectController views).
+Data Context: The database context is defined in the dbContext folder (PortofolioDbContext).
+Static Files: Static assets (e.g., CSS, JS, images) are stored in the wwwroot folder.
 
 2. Naming Conventions
 2.1 Classes
